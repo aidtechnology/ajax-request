@@ -3,6 +3,7 @@
  * @author douzi <liaowei08@gmail.com> 
  */
 var http = require('http');
+var https = require('https');
 var util = require('utils-extend');
 var url = require('url');
 var path = require('path');
@@ -50,7 +51,9 @@ function request(options, callback) {
   util.extend(opts, util.pick(url.parse(opts.url), 'hostname', 'port', 'path', 'auth'));
   delete opts.url;
 
-  var req = http.request(opts, function(res) {
+  const requestHttp = options.url.includes('https://') ? https : http;
+
+  var req = requestHttp.request(opts, function(res) {
     var body = [];
     var size = 0;
 
